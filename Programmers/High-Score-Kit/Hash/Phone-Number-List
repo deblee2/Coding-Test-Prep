@@ -1,0 +1,47 @@
+# 전화번호부에 적힌 전화번호 중 한 번호가 다른 번호의 접두어인 경우가 있는지 확인
+
+# Solution 1
+def solution(phone_book):
+  # 만약에 어떤 번호가 다른 번호의 접두어라면 이 둘은 정렬했을 때 앞뒤에 위치하게 된다
+  phone_book.sort()
+  # phone_book에서 현재 번호와 그 다음 번호를 순서쌍으로 묶어 현재 번호와 다음 번호를 비교
+  for i, t in zip(phone_book, phone_book[1:]):
+  # 현재 번호가 다음 번호의 접두어인지 확인
+    if t.startswith(i):
+      return False
+  return True
+
+# Solution 2
+def solution(phone_book):
+  answer = True
+  phone_book.sort()
+  for i in range(len(phone_book)-1):
+    # 현재 번호의 길이가 다음 번호의 길이보다 작은 경우
+    if len(phone_book[i]) < len(phone_book[i+1]):
+      # 다음 번호에서 현재 번호의 길이만큼의 부분 문자열을 추출
+      if phone_book[i+1][:len(phone_book[i])] == phone_book[i]:
+        answer = False
+        break
+  return answer
+
+# Solution 3
+def solution(phone_book):
+    answer = True  # 기본적으로는 전화번호 목록에서 어떤 번호도 다른 번호의 접두어가 아닌 것으로 가정합니다.
+    hash_map = {}  # 해시 맵을 초기화합니다. 이 맵은 전화번호를 저장하고, 나중에 빠르게 접근하기 위해 사용됩니다.
+    
+    # 전화번호를 해시 맵에 추가합니다.
+    for phone_number in phone_book:
+        hash_map[phone_number] = 1
+    
+    # 각 전화번호에 대해 접두어 여부를 검사합니다.
+    for phone_number in phone_book:
+        temp = ""  # 현재 전화번호의 부분 문자열을 저장할 임시 변수입니다.
+        for number in phone_number:
+            temp += number  # 현재 전화번호의 문자를 임시 변수에 추가합니다.
+            if temp in hash_map and temp != phone_number:
+                # 임시 변수가 해시 맵에 존재하고, 현재 번호와 다를 경우,
+                # 현재 번호가 다른 번호의 접두어이므로 answer를 False로 설정하고 루프를 종료합니다.
+                answer = False
+    return answer  # 최종적으로 answer 값을 반환합니다.
+
+  
