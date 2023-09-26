@@ -1,0 +1,33 @@
+# Solution 1
+def solution(genres, plays):
+    answer = []  # 결과를 저장할 리스트
+
+    dic1 = {}  # 장르별 노래 정보를 저장하는 딕셔너리 (장르를 키로, 고유 번호와 재생 횟수를 리스트로 저장)
+    dic2 = {}  # 장르별 총 재생 횟수를 저장하는 딕셔너리 (장르를 키로, 총 재생 횟수를 저장)
+
+    # 입력된 genres와 plays 리스트를 동시에 순회하며 노래 정보를 딕셔너리에 저장
+    for i, (g, p) in enumerate(zip(genres, plays)):
+        # 딕셔너리 dic1에 장르가 없으면 새로운 키로 추가하고 (고유 번호, 재생 횟수) 튜플을 리스트로 저장
+        # 이미 장르가 있는 경우 해당 장르의 리스트에 (고유 번호, 재생 횟수) 튜플 추가
+        if g not in dic1:
+            dic1[g] = [(i, p)]
+        else:
+            dic1[g].append((i, p))
+
+        # 딕셔너리 dic2에 장르가 없으면 새로운 키로 추가하고 재생 횟수를 값으로 저장
+        # 이미 장르가 있는 경우 해당 장르의 재생 횟수에 더해줌
+        if g not in dic2:
+            dic2[g] = p
+        else:
+            dic2[g] += p
+
+    # 장르별 총 재생 횟수를 기준으로 내림차순으로 정렬하고 순회
+    for (k, v) in sorted(dic2.items(), key=lambda x: x[1], reverse=True):
+        # 장르별로 노래 정보가 저장된 딕셔너리 dic1에서 재생 횟수를 기준으로 내림차순으로 정렬하고
+        # 상위 2개 노래의 고유 번호를 answer 리스트에 추가
+        for (i, p) in sorted(dic1[k], key=lambda x: x[1], reverse=True)[:2]:
+            answer.append(i)
+
+    return answer  # 결과 리스트 반환
+
+
