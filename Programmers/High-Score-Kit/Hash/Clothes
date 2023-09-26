@@ -1,0 +1,53 @@
+# 서로 다른 옷의 조합의 수 구하기
+# 종류별로 최대 1가지, 최소 1개의 의상은 입음
+
+# Solution 1
+def solution(clothes):
+  answer = 1
+  # 해쉬맵/딕셔너리 생성. 의상의 종류를 키로 사용하고, 해당 종류의 의상 수를 값으로 저장.
+  clodict = {}
+  # clothes의 종류를 key로 삽입
+  for i in clothes:
+    clodict[i[1]] == 0
+  # clothes 안의 리스트 중에서 해당하는 key값이 나타난다면 +1하기
+  for j in clothes:
+    clodict[j[1]] += 1
+  # values (각 종류별 이름의 개수)를 곱하여 옷 조합 수 구하기
+  # 그런데 이제 옷을 안 입는 옵션도 있기 때문에 +1을 하기
+  # 모든 종류에서 안 입는 경우도 있기에 전체 값에서 -1
+  for t in clodict.values():
+    answer = (t+1)*answer
+  return answer-1
+
+# Solution 2 
+# Solution 1이랑 거의 비슷함
+def solution(clothes):
+    ans = 1
+    clodict = {}
+    for i in clothes:
+        clodict[i[-1]] =0 ##
+    for k in clothes:
+        clodict[k[-1]]+=len(k[:-1]) ##
+    for h in clodict.values():
+        ans=(h+1)*ans
+    return ans-1
+
+
+# Solution 3 (좀 더 해쉬st)
+def solution(clothes):
+  clothes_type = {}
+  # clothes 리스트를 순회하면서 t (의상의 종류)를 확인
+  for c, t in clothes:
+        # clothes_type 딕셔너리에 t가 없다면 해당 종류를 추가하고 값을 2로 설정 (왜냐하면 입는 경우와 안 입는 경우가 있으니까)
+        if t not in clothes_type:
+            clothes_type[t] = 2
+        # 만약 이미 해당 종류가 딕셔너리에 있다면 해당 종류의 의상을 1 추가
+        else:
+            clothes_type[t] += 1
+    # 각 의상 종류별로 가능한 입는 경우의 수
+    cnt = 1
+    # 의상 수를 모두 곱하여 "서로 다른 종류의 의상을 서로 다른 방식으로 입을 수 있는 경우의 수"를 구하기
+    for num in clothes_type.values():
+        cnt *= num
+    # 모든 의상을 입지 않는 경우를 제외하기 위해서 -1
+    return cnt - 1
